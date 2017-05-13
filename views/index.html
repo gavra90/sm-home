@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Index</title>
+	<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
+</head>
+<body>
+<div class="container">
+<h1 style="text-align: center;">Smart Home Vucacka 42</h1>
+	<div class="row">
+	<div class="col-lg-12" style="margin-top: 50px;">
+		<table class="table">
+    <thead>
+      <tr>
+        <th>Uređaj</th>
+        <th>Status</th>
+        <th>Akcija</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Svetlo dnevna soba</td>
+        <td><img src="/img/red.gif" class="img-responsive" width="30px"></td>
+        <td><button id="dnevna_soba" name="ukljuci" class="btn btn-success">Ukljuci</button></td>
+      </tr>      
+    </tbody>
+  </table>
+  </div>
+	</div>
+</div>
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script src="/js/socket.io.js"></script>		
+
+
+<script type="text/javascript">
+	$(function(){
+		var socket = io.connect("http://127.0.0.1:3000");
+		$("#dnevna_soba").on('click',function(){
+
+		socket.emit('dnevna_soba', $(this), function (data) {
+				console.log(data);
+			
+			});
+		});
+	});
+</script>
