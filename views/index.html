@@ -3,6 +3,11 @@
 <head>
 	<title>Index</title>
 	<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
+  <style type="text/css">
+    #slika_off{
+      display: none;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -20,7 +25,7 @@
     <tbody>
       <tr>
         <td>Svetlo dnevna soba</td>
-        <td><img src="/img/red.gif" class="img-responsive" width="30px"></td>
+        <td><img id='slika_on' src="/img/red.gif" class="img-responsive" width="30px"><img id='slika_off' src="/img/green.gif" class="img-responsive" width="30px"></td>
         <td><button id="dnevna_soba" name="ukljuci" class="btn btn-success">Ukljuci</button></td>
       </tr>      
     </tbody>
@@ -41,10 +46,25 @@
 		var socket = io.connect("http://127.0.0.1:3000");
 		$("#dnevna_soba").on('click',function(){
 
-		socket.emit('dnevna_soba', $(this), function (data) {
-				console.log(data);
-			
-			});
+      var status = $(this).html() === "Ukljuci";
+		socket.emit('dnevna_soba',{status: status});
+
+socket.on('svetlo',function(data) {
+  if(data.status){
+    $("#dnevna_soba").html('Iskljuci');
+    $('#slika_off').css('display','block');
+    $('#slika_on').css('display','none');    
+  }else{
+    $("#dnevna_soba").html('Ukljuci');
+    $('#slika_off').css('display','none');
+    $('#slika_on').css('display','none');    
+  }
+
+
+  });
+
+
+
 		});
 	});
 </script>
